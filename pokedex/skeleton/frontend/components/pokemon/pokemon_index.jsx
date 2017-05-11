@@ -1,4 +1,7 @@
 import React from 'react';
+import PokemonIndexItem from './pokemon_index_item';
+import { Route } from 'react-router-dom';
+import PokemonDetailContainer from './pokemon_detail_container';
 
 class PokemonIndex extends React.Component {
   componentDidMount() {
@@ -10,15 +13,19 @@ class PokemonIndex extends React.Component {
   }
 
   render() {
+    const pokemonItems = this.props.pokemon.map(poke => <PokemonIndexItem
+                                                key={poke.id}
+                                                pokemon={poke}
+                                                image={poke.image_url}
+                                                />);
+
     return (
-      <ol>
-        {this.props.pokemon.map(pokemon => (
-          <li key={pokemon.id}>
-            <img src={pokemon.image_url} height="30" width="30"></img>
-            {pokemon.name}
-          </li>
-        ))}
-      </ol>
+      <section className="pokedex">
+        <ul>
+          {pokemonItems}
+        </ul>
+        <Route path="/pokemon/:id" component={PokemonDetailContainer}/>
+      </section>
     );
   }
 }
